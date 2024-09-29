@@ -101,6 +101,24 @@ module.exports = {
         res.json({ data: blogs });
     }),
 
+    //get top 3 blos
+    getTopBlogs: asyncHandler(async (req, res) => {
+        const blogs = await Blog.find({}).sort({ views: -1 }).limit(3);
+
+        if (!blogs) {
+            res.status(404);
+            throw new Error('No blogs found');
+        };
+
+        res.json({ data: blogs });
+    }),
+
+    //total blogs count
+    getBlogsCount: asyncHandler(async (req, res) => {
+        const count = await Blog.countDocuments();
+        res.json({ data: count });
+    }),
+
     //add a comment
     addComment: asyncHandler(async (req, res) => {
         const { content } = req.body;
@@ -159,4 +177,27 @@ module.exports = {
 
         res.json({ data: blog.comments });
     }),
+
+    //get total comments count 
+    getCommentsCount: asyncHandler(async (req, res) => {
+        const totalCommentsCount = await Blog.aggregate([
+            {
+                $unwind: '$comments'
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalComments: { $sum: 1 }
+                }
+            }
+        ])
+        // If there are no comments, set totalComments to 0
+        const totalCount = totalCommentsCount.length > 0 ? totalCommentsCount[0].totalComments : 0;
+
+        return res.status(200).json({
+            success: true,
+            totalComments: totalCount
+        })
+    })
+
 }

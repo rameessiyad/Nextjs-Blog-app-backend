@@ -25,7 +25,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 //route
 app.use('/api/v1', apiRoute);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

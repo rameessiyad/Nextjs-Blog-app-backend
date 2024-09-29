@@ -97,4 +97,10 @@ module.exports = {
 
         res.json({ data: users });
     }),
+
+    //get total users count 
+    getUsersCount: asyncHandler(async (req, res) => {
+        const count = await User.countDocuments();
+        res.json({ data: count });
+    }),
 }
