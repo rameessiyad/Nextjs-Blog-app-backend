@@ -2,7 +2,6 @@ const User = require('../models/user-model');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 const generateToken = require('../utils/generateToken');
-const { get } = require('mongoose');
 
 module.exports = {
     //register user
@@ -32,7 +31,7 @@ module.exports = {
         })
 
         res.status(201).json({
-            message: "User created successfully",
+            success: true,
         });
     }),
 
@@ -55,7 +54,8 @@ module.exports = {
         if (passwordMatch) {
             generateToken(res, user._id);
             res.status(200).json({
-                message: "Login successfull"
+                success: true,
+                data: user.isAdmin ? 'admin' : 'user'
             })
         } else {
             res.status(401);
@@ -82,7 +82,7 @@ module.exports = {
             user.isBlocked = !user.isBlocked;
             await user.save();
 
-            res.status(200).json({ message: `user is ${user.isBlocked ? 'blocked' : 'unblocked'}` })
+            res.status(200).json({ successMessage: `user is ${user.isBlocked ? 'blocked' : 'unblocked'}` })
         }
     }),
 
