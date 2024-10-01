@@ -51,16 +51,29 @@ module.exports = {
         //check password
         const passwordMatch = await bcrypt.compare(password, user.password);
 
+        //return user without password
+        const userData = {
+            username: user.username,
+            email: user.email,
+            isAdmin: user.isAdmin
+        }
+
         if (passwordMatch) {
             generateToken(res, user._id);
             res.status(200).json({
                 success: true,
-                data: user.isAdmin ? 'admin' : 'user'
+                data: user.isAdmin ? 'admin' : 'user',
+                user: userData
             })
         } else {
             res.status(401);
             throw new Error('Invalid credentials');
         }
+    }),
+
+    logout: asyncHandler(async (req, res) => {
+        res.cookie('token', '', { maxAge: 1 });
+        res.status(200).json({ success: true });
     }),
 
     //========== ADMIN ONLY CONTROLLERS=================
