@@ -23,7 +23,8 @@ module.exports = {
         });
 
         res.status(201).json({
-            message: 'Blog created successfully',
+            success: true,
+            successMessage: "Blog created successfully",
         })
     }),
 
@@ -176,6 +177,19 @@ module.exports = {
         };
 
         res.json({ data: blog.comments });
+    }),
+
+    //get comment of a blog
+    getComments: asyncHandler(async (req, res) => {
+        const blog = await Blog.findById(req.params.id);
+
+        if (!blog) {
+            res.status(404);
+            throw new Error('Blog not found');
+        };
+
+        const comments = blog.comments.filter(comment => comment.user.toString() === req.params.commentId);
+        res.json({ data: comments });
     }),
 
     //get total comments count 

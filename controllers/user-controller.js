@@ -55,7 +55,8 @@ module.exports = {
         const userData = {
             username: user.username,
             email: user.email,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            isBlocked: user.isBlocked
         }
 
         if (passwordMatch) {

@@ -9,9 +9,9 @@ router.post('/login', login);
 router.post('/logout', logout);
 
 //admin only
-router.post('/block/:id', isAuth, adminOnly, blockUser);
+router.put('/block-user/:id', isAuth, adminOnly, blockUser);
 router.get('/blocked-users', isAuth, adminOnly, getBlockedUsers);
 router.get('/users-count', isAuth, adminOnly, getUsersCount);
-router.post('/all-users', isAuth, adminOnly, getAllUsers);
+router.get('/all-users', isAuth, adminOnly, getAllUsers);
 
 module.exports = router;

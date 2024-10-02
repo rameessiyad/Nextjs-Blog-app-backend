@@ -26,18 +26,15 @@ const blogSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        required: true
+        // required: true
     },
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        // required: true
     },
     comments: [commentSchema],
-    views: {
-        type: Number,
-        default: 0
-    }
+
 }, { timestamps: true });
 
 const Blog = mongoose.model('Blog', blogSchema);

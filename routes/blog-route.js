@@ -1,5 +1,5 @@
 const express = require('express');
-const { createBlog, editBlog, addComment, deleteComment, getAllBlogs, getBlog, getAllComments, deleteBlog, getTopBlogs, getBlogsCount, getCommentsCount } = require('../controllers/blog-controller');
+const { createBlog, editBlog, addComment, deleteComment, getAllBlogs, getBlog, getAllComments, deleteBlog, getTopBlogs, getBlogsCount, getCommentsCount, getComments } = require('../controllers/blog-controller');
 const { isAuth, adminOnly } = require('../middlewares/authmiddleware');
 const { upload } = require('../utils/imageUpload');
 
@@ -15,8 +15,9 @@ router.get('/comments-count', isAuth, adminOnly, getCommentsCount);
 router.post('/comment/:id', isAuth, addComment);
 router.delete('/comment/:id', isAuth, deleteComment);
 router.get('/comment', isAuth, getAllComments);
+router.get('/comment/:id', isAuth, getComments)
 router.get('/blogs', isAuth, getAllBlogs);
 router.get('/topblogs', isAuth, getTopBlogs);
-router.get('/blog/:id', isAuth, getBlog)
+router.get('/:id', isAuth, getBlog)
 
 module.exports = router;
